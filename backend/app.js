@@ -1,8 +1,11 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
 
-app.use((req, res) => {
+app.use(bodyParser.json())
+
+app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader(
     'Access-Control-Allow-Headers',
@@ -15,7 +18,15 @@ app.use((req, res) => {
   next()
 })
 
-app.use('/api/posts', (req, res, next) => {
+app.post('/api/posts', (req, res) => {
+  const post = req.body
+  console.log(post)
+  res.status(201).json({
+    message: 'new post added successfully'
+  })
+})
+
+app.get('/api/posts', (req, res) => {
   const posts = [
     {
       id: 'tsj3',
